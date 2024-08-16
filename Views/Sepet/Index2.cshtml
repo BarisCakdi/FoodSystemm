@@ -1,0 +1,90 @@
+﻿@model List<Sepet>
+@using System.Globalization
+
+<style>
+    /* Yazı rengini beyaz yapma */
+    .form-label, .table th, .table td {
+        color: #fff; /* Beyaz renk */
+    }
+
+   
+
+    /* Butonlar için de aynı şekilde */
+    .btn {
+        color: #fff;
+        background-color: #28a745; /* Buton için yeşil renk */
+        border-color: #28a745;
+    }
+
+    /* Tabloyu genişletmek için */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .container {
+        max-width: 100%; /* Tüm alanı kaplamasını sağlar */
+    }
+
+    /* Ürün listeleme kısmını genişletme */
+    .col-lg-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+    .col-lg-9 {
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+</style>
+
+<!-- about section -->
+<section class="about_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="img-box">
+                    <img src="/images/about-img.png" alt="About Image" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="detail-box">
+                    <h1>@ViewData["Title"]</h1>
+                    @if (Model != null && Model.Any())
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat</th>
+                                    <th>Adet</th>
+                                    <th>Toplam</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.UrunAd</td>
+                                        <td>@item.UrunFiyat.ToString("c", CultureInfo.CreateSpecificCulture("tr-TR"))</td>
+                                        <td>@item.UrunAdet</td>
+                                        <td>@((item.UrunFiyat * item.UrunAdet).ToString("c", CultureInfo.CreateSpecificCulture("tr-TR")))</td>
+                                        <td>
+                                            <a href="@Url.Action("SepetSil", "Sepet", new { id = item.Id })" class="btn btn-danger btn-sm">Sil</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <h2>Toplam: ₺@ViewData["TotalAmount"]</h2>
+                    }
+                    else
+                    {
+                        <p>Sepetinizde ürün bulunmamaktadır.</p>
+                    }
+                    <a href="/sepet/Odeme" class="btn btn-primary">Ödeme yap</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

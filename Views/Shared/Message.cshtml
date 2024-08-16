@@ -1,0 +1,21 @@
+﻿
+
+<section class="book_section layout_padding text-center">
+    <div class="container">
+            <h1 style="color: #ffc107;">
+                FoodSystem'e hoş geldin 
+            </h1>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger mb-3" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        @if (ViewBag.MessageCssClass != null)
+        {
+            <div class="alert alert-success">
+                <strong>@ViewBag.Message</strong>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="~/images/favicon.png" type="">
+
+    <title> FoodSystem </title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.css" />
+
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- nice select  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+    <!-- font awesome style -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="~/css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <div class="hero_area">
+        <div class="bg-box">
+            <img src="/images/hero-bg.jpg" alt="">
+        </div>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                    <a class="navbar-brand" href="/home/index">
+                        <span>
+                            Foodsystem
+                        </span>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav  mx-auto ">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/home/index"> Ana Sayfa <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Menu">Menü</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="About">Hakkımızda</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="book.html">İletişim</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="user_option">
+                        @if (string.IsNullOrEmpty(Context.Session.GetString("username")))
+                        {
+                            <a class="cart_link" href="/index">
+                            </a>
+                            <a href="/home/Login" class="order_online">
+                                Giriş
+                            </a>
+                            <a href="/home/register" class="order_online">
+                                Kayıt
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Profile", "Home", new { username = Context.Session.GetString("username")})" class="order_online">
+                                @ViewData["username"]
+                            </a>
+                            <a href="@Url.Action("Index", "Sepet")" class="order_online">
+                                Sepetiniz
+                                <span class="badge bg-dark text-white ms-1 rounded-pill">@ViewBag.SepetUrunSayisi</span>
+                            </a>
+
+                            <a href="/home/cikis" class="order_online">
+                                Çıkış
+                            </a>
+                            <a href="/admin/index" class="order_online">
+                                Yönetim
+                            </a>
+                        }
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- end header section -->
+        @RenderBody()
+
+        <!-- end client section -->
+        <!-- footer section -->
+        <footer class="footer_section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 footer-col">
+                        <div class="footer_contact">
+                            <h4>
+                                İletişim
+                            </h4>
+                            <div class="contact_link_box">
+                                <a href="">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    <span>
+                                        Location
+                                    </span>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                    <span>
+                                        Call +01 1234567890
+                                    </span>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <span>
+                                        demo@gmail.com
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 footer-col">
+                        <div class="footer_detail">
+                            <a href="" class="footer-logo">
+                                FoodSystem
+                            </a>
+                            <p>
+                                Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+                            </p>
+                            <div class="footer_social">
+                                <a href="">
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-pinterest" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 footer-col">
+                        <h4>
+                            Açılış saatleri
+                        </h4>
+                        <p>
+                            Hergün
+                        </p>
+                        <p>
+                            10.00  - 21.00
+                        </p>
+                    </div>
+                </div>
+                <div class="footer-info">
+                    <p>
+                        &copy; <span id="displayYear"></span> All Rights Reserved By
+                        <a href="https://html.design/">Free Html Templates</a><br><br>
+                        &copy; <span id="displayYear"></span> Distributed By
+                        <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+        <!-- footer section -->
+        <!-- jQery -->
+        <script src="/js/jquery-3.4.1.min.js"></script>
+        <!-- popper js -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+        </script>
+        <!-- bootstrap js -->
+        <script src="/js/bootstrap.js"></script>
+        <!-- owl slider -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+        </script>
+        <!-- isotope js -->
+        <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+        <!-- nice select -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+        <!-- custom js -->
+        <script src="~/js/custom.js"></script>
+        <!-- Google Map -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+        </script>
+        <!-- End Google Map -->
+
+</body>
+
+</html>
+

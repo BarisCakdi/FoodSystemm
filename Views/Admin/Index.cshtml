@@ -1,0 +1,204 @@
+﻿@model ProductCategoryModel
+<style>
+    /* Yazı rengini beyaz yapma */
+    .form-label, .table th, .table td {
+        color: #fff; /* Beyaz renk */
+    }
+
+    /* Arka plan rengini koyu yapma */
+    .form-control, .table {
+        background-color: rgba(0, 0, 0, 0.5); /* Yarı saydam koyu renk */
+        color: #fff;
+    }
+
+    /* Butonlar için de aynı şekilde */
+    .btn {
+        color: #fff;
+        background-color: #28a745; /* Buton için yeşil renk */
+        border-color: #28a745;
+    }
+
+    /* Tabloyu genişletmek için */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .container {
+        max-width: 100%; /* Tüm alanı kaplamasını sağlar */
+    }
+
+    /* Ürün listeleme kısmını genişletme */
+    .col-lg-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+    .col-lg-9 {
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+</style>
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row">
+            <!--Kategöri ekleme alanı-->
+            <div class="col-lg-3 mb-5">
+                <h4 style="color: #ffc107;">Yeni Kategori Ekle</h4>
+                <form class="row g-3" method="post" action="/admin/AddCategry">
+                    <div class="mb-3">
+                        <label class="form-label">Kategori İsmi</label>
+                        <input required type="text" class="form-control" name="Name">
+                    </div>
+                    <button class="btn btn-success">Ekle</button>
+                </form>
+            </div>
+            <!-- Mevcut kategorileri düzenleme ve kontrolü -->
+            <div class="col-lg-9 mb-5">
+                <h4 style="color: #ffc107;">Mevcut Kategoriler</h4>
+                <!-- Mevcut kategori tablosu -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Kategori Adı</th>
+                                <th scope="col">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var post in Model.categories)
+                            {
+                                <tr>
+                                    <th scope="row">@post.Id</th>
+                                    <td>
+                                        <input type="hidden" name="Id" value="@post.Id" />
+                                        <input type="text" name="Name" value="@post.Name" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <form method="post" action="/admin/DelCate/@post.Id">
+                                            <button type="submit" onclick="return confirm('Emin misin?')" class="btn btn-danger btn-sm">Sil</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+            <!-- Ürün ekleme formu -->
+            <div class="col-lg-3 mb-5">
+                <h4 style="color: #ffc107;">Yeni Ürün Ekle</h4>
+                <form class="row g-3" method="post" action="/admin/add" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <select class="form-control" aria-label="Default select example" name="CategoryId">
+                            <option selected disabled>Kategori</option>
+                            @foreach (var category in Model.categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ürün adı</label>
+                        <input required type="text" class="form-control" name="Name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Detay</label>
+                        <textarea required type="text" class="form-control" rows="3" name="Description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fiyat</label>
+                        <input required type="number" class="form-control" name="Price">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Stok</label>
+                        <input required type="number" class="form-control" name="Stock">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fotoğraf</label>
+                        <input required type="file" class="form-control" name="Img">
+                    </div>
+                    <button class="btn btn-success">Ekle</button>
+                </form>
+            </div>
+            <!-- Mevcut ürünlerin düzenleme ve kontrolü -->
+            <div class="col-lg-9 mb-5">
+                <h4 style="color: #ffc107;">Mevcut Ürünler</h4>
+                <!-- Mevcut ürünler tablosu -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Kategori</th>
+                                <th scope="col">Ürün Adı</th>
+                                <th scope="col">Detay</th>
+                                <th scope="col">Fiyat</th>
+                                <th scope="col">Stok</th>
+                                <th scope="col">Fotoğraf</th>
+                                <th scope="col">Görsel</th>
+                                <th scope="col">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var post in Model.products)
+                            {
+                                <tr>
+                                    <form method="post" action="/admin/edit/@post.Id" enctype="multipart/form-data">
+                                    <td>
+                                        <select class="form-control" name="CategoryId">
+                                                @foreach (var category in Model.categories.Where(c => c.Id == post.CategoryId))
+                                                {
+                                                <option value="@category.Id" selected>@category.Name</option>
+                                                }
+                                                @foreach (var category in Model.categories.Where(c => c.Id != post.CategoryId))
+                                                {
+                                                <option value="@category.Id">@category.Name</option>
+                                                }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="Id" value="@post.Id" />
+                                        <input type="text" name="Name" value="@post.Name" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="Id" value="@post.Id" />
+                                        <textarea required type="text" class="form-control" rows="3" name="Description">@post.Description</textarea>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="Name" value="@post.Name" />
+                                        <input type="number" name="Price" value="@post.Price" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="Name" value="@post.Name" />
+                                        <input type="number" name="Stock" value="@post.Stock" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="ExistingImgPath" value="@post.ImgPath" />
+                                        <input type="file" name="Image" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <img src="/uploads/@post.ImgPath" alt="@post.Name" style="width: 70px; height:70px;" />
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-primary btn-sm">Düzenle</button>
+                                    </td>
+                                    </form>
+                                    <td>
+                                        <form method="post" action="/admin/delete/@post.Id">
+                                            <button type="submit" onclick="return confirm('Emin misin?')" class="btn btn-danger btn-sm">Sil</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
